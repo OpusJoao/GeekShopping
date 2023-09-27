@@ -59,8 +59,9 @@ namespace GeekShopping.ProductAPI.Repository
                 {
                     return false;
                 }
-                _context.Products.Remove(product);
-                return true;
+                var wasDeleted = _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+                return wasDeleted is not null;
             }
             catch (Exception)
             {
